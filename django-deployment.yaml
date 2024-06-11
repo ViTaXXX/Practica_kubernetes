@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: django
+  labels:
+    app: django
+    tier: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: django
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: django
+        tier: frontend
+    spec:
+      containers:
+        - name: django
+          image: andresdocker77/pruebadjango:v1
+          env:
+            - name: ALLOWED_HOSTS
+              value: "*"
+            - name: HOST
+              value: mariadb
+            - name: DB_DJANGO
+              valueFrom:
+                configMapKeyRef:
+                  name: django-config
+                  key: BASE_DATOS
+            - name: PWD_DJANGO
+              valueFrom:
+                secretKeyRef:
+                  name: django-secret
+                  key: CONTRA
+            - name: USER_DJANGO
+              valueFrom:
+                configMapKeyRef:
+                  name: django-config
+                  key: USUARIO
+            - name: DJANGO_SUPERUSER_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: django-config
+                  key: DJANGO_SUPERUSER_PASSWORD
+            - name: DJANGO_SUPERUSER_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: django-config
+                  key: DJANGO_SUPERUSER_USERNAME
+            - name: DJANGO_SUPERUSER_EMAIL
+              valueFrom:
+                configMapKeyRef:
+                  name: django-config
+                  key: DJANGO_SUPERUSER_EMAIL
+          ports:
+            - containerPort: 8006
+              name: django

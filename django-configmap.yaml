@@ -1,0 +1,13 @@
+apiVersion: v1
+data:
+  ALLOWED_HOSTS: '*'
+  BASE_DATOS: django
+  DJANGO_SUPERUSER_EMAIL: admin@example.org
+  DJANGO_SUPERUSER_PASSWORD: admin
+  DJANGO_SUPERUSER_USERNAME: admin
+  HOST: bd-mariadb-django
+  USUARIO: django
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: django-config
